@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inkwell – Write. Read. Discuss.</title>
+<style>
+:root{--bg:#fafaf8;--ink:#1a1a1a;--mut:#6b6b6b;--ac:#1a8917;--bd:#e8e6e1;--er:#dc2626;--sf:Georgia,"Times New Roman",serif}
+*{box-sizing:border-box;margin:0;font-family:Inter,"Segoe UI",system-ui,sans-serif}
+body{background:var(--bg);color:var(--ink)}
+a{color:inherit}button{cursor:pointer;border:0;font-weight:600;font-size:14px;transition:.2s}
+input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--bd);border-radius:10px;font-size:15px;background:#fff;outline:0;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--ink)}
+label{font-size:13px;font-weight:600;color:var(--mut);display:block;margin:14px 0 6px}
+.btn{padding:10px 20px;border-radius:99px;background:var(--ink);color:#fff;text-decoration:none;display:inline-block}
+.btn:hover{background:#000;transform:translateY(-1px)}.btn.g{background:var(--ac)}.btn.o{background:none;color:var(--ink);border:1px solid var(--bd)}
+.btn.o:hover{border-color:var(--ink)}.btn.d{background:none;color:var(--er);border:1px solid #fecaca}.btn.s{padding:6px 14px;font-size:13px}.btn.w{width:100%;border-radius:10px}
+nav{position:sticky;top:0;z-index:50;background:#fafaf8ee;backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px;padding:14px 5%;flex-wrap:wrap}
+.logo{font-family:var(--sf);font-size:26px;font-weight:700;text-decoration:none}
+.nl{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.nl a:not(.btn){text-decoration:none;font-size:14px;color:var(--mut);padding:6px 10px}.nl a:not(.btn):hover{color:var(--ink)}
+main{max-width:1100px;margin:auto;padding:30px 5% 60px}
+.hero{text-align:center;padding:50px 10px 34px;border-bottom:1px solid var(--bd);margin-bottom:34px}
+.hero h1{font-family:var(--sf);font-size:clamp(32px,6vw,58px);line-height:1.1;max-width:720px;margin:0 auto 16px}.hero p{color:var(--mut);max-width:520px;margin:0 auto 22px;font-size:18px;font-family:var(--sf)}
+h2.t{font-family:var(--sf);font-size:24px;margin:34px 0 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:16px;overflow:hidden;cursor:pointer;transition:.25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-5px);box-shadow:0 16px 34px #0001}
+.cv{height:170px;display:grid;place-items:center;font-size:60px;background-size:cover!important;background-position:center!important}
+.cb{padding:18px;flex:1;display:flex;flex-direction:column}.cat{font-size:12px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:.5px}
+.cb h3{font-family:var(--sf);font-size:21px;line-height:1.25;margin:6px 0}.cb p{color:var(--mut);font-size:14px;line-height:1.5;flex:1}
+.meta{font-size:12.5px;color:var(--mut);margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.ft{display:grid;grid-template-columns:2fr 1fr;gap:22px}.ft .card:first-child{grid-row:span 2}.ft .card:first-child .cv{height:260px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 16px;border-radius:99px;background:#fff;border:1px solid var(--bd);color:var(--ink)}.chip.on,.chip:hover{background:var(--ink);color:#fff}
+.bar{display:flex;gap:12px;margin:18px 0;flex-wrap:wrap}.bar input{flex:1;min-width:220px}.bar select{width:160px}
+.art{max-width:720px;margin:auto}.art h1{font-family:var(--sf);font-size:clamp(30px,5vw,44px);line-height:1.15;margin:8px 0 18px}
+.au{display:flex;gap:12px;align-items:center;margin:16px 0}.av{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.art .cv{height:340px;border-radius:14px;margin:20px 0}.body p{font-family:var(--sf);font-size:19px;line-height:1.85;margin-bottom:22px}
+.act{display:flex;gap:10px;align-items:center;padding:14px 0;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);margin:24px 0;flex-wrap:wrap}
+.cm{padding:16px 0;border-bottom:1px solid var(--bd)}.cm p{margin:8px 0;line-height:1.6}
+.box{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:26px}.auth{max-width:420px;margin:30px auto}.auth h2{font-family:var(--sf);font-size:28px}
+.err{color:var(--er);font-size:13px;margin-top:6px}.empty{text-align:center;padding:50px 20px;color:var(--mut)}.empty div{font-size:50px}
+.ph{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.ph .av{width:84px;height:84px;font-size:34px}
+.ov{position:fixed;inset:0;background:#0007;display:grid;place-items:center;z-index:100;padding:16px}.md{background:#fff;border-radius:18px;padding:26px;width:100%;max-width:480px;max-height:90vh;overflow:auto}
+#ts{position:fixed;right:18px;bottom:18px;z-index:200;display:flex;flex-direction:column;gap:10px}.to{padding:12px 18px;border-radius:10px;color:#fff;font-weight:600;box-shadow:0 8px 20px #0003;animation:s .3s}
+@keyframes s{from{transform:translateX(50px);opacity:0}}
+.pv{height:160px;border-radius:12px;margin-top:10px;background-size:cover;background-position:center;display:none}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:30px}
+@media(max-width:760px){.ft{grid-template-columns:1fr}.ft .card:first-child{grid-row:auto}.art .cv{height:220px}.body p{font-size:17px}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav><main id="app"></main><footer>© 2026 Inkwell · College Project Demo</footer>
+<div id="ts"></div><div id="mo"></div>
+<script>
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const L=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}};
+const S=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const CATS=['Technology','Travel','Lifestyle','Health','Food','Education'];
+const CV={Technology:['#c7d2fe,#6366f1','💻'],Travel:['#fde68a,#f97316','✈️'],Lifestyle:['#fbcfe8,#ec4899','🌿'],Health:['#a7f3d0,#10b981','🧘'],Food:['#fecaca,#ef4444','🍜'],Education:['#bae6fd,#0ea5e9','📚']};
+const fd=d=>new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+let q='',cat='All',sort='new',editC=null,curImg='',session=L('bl_session',null);
+
+/* ---------- seed ---------- */
+const ago=n=>new Date(Date.now()-n*864e5).toISOString();
+if(!L('bl_users',null))S('bl_users',[
+{email:'admin@blog.com',name:'Admin',pass:'admin123',role:'admin',bio:'Platform moderator.',joined:ago(60)},
+{email:'aarav@blog.com',name:'Aarav Mehta',pass:'demo123',role:'user',bio:'Full-stack developer who writes about code and careers.',joined:ago(50)},
+{email:'priya@blog.com',name:'Priya Nair',pass:'demo123',role:'user',bio:'Travel and food storyteller from Kerala.',joined:ago(45)},
+{email:'karan@blog.com',name:'Karan Verma',pass:'demo123',role:'user',bio:'Student, learner and wellness enthusiast.',joined:ago(40)}]);
+if(!L('bl_posts',null)){
+const P=(t,c,a,d,ds,ct,lk)=>({title:t,cat:c,author:a+'@blog.com',date:ago(d),desc:ds,content:ct,img:'',likes:lk.map(x=>x+'@blog.com')});
+S('bl_posts',[
+P('Why Vanilla JavaScript Still Matters in 2026','Technology','aarav',2,'Frameworks come and go, but the language underneath them never changes. Here is why mastering the basics pays off.','Every few years a new framework promises to change how we build the web. Yet every one of them compiles down to the same JavaScript, the same DOM and the same browser APIs.\n\nWhen you understand events, closures and the DOM, picking up any framework becomes easy. You stop memorising syntax and start recognising patterns.\n\nStart small: build a to-do list, a calculator and a weather widget without any library. You will be surprised how far plain JavaScript can take you.',['priya','karan']),
+P('A Week in the Backwaters of Kerala','Travel','priya',4,'Houseboats, coconut groves and slow mornings: a perfect guide to Alleppey for first-time visitors.','The first thing you notice in Alleppey is the silence. Our houseboat drifted through narrow canals while kingfishers darted between palm trees.\n\nMeals were cooked on board: karimeen fry, appam and a fiery fish curry that I still dream about. The best time to visit is between November and February.\n\nIf you go, skip the crowded main channels and ask your captain for the quiet village routes. That is where the real Kerala lives.',['aarav','karan']),
+P('Morning Habits That Actually Stick','Lifestyle','karan',6,'Forget the 5 AM hype. These small, realistic morning habits helped me stay consistent for a full year.','I tried every productivity routine on the internet and failed at most of them. What worked was making habits tiny.\n\nI started with a glass of water, five minutes of stretching and writing down three priorities. Nothing more. After a month, adding more felt natural.\n\nThe secret is not motivation but consistency. Make it so easy that you cannot say no.',['aarav']),
+P('Understanding Sleep: Why 7 Hours Is Not Optional','Health','karan',8,'Sleep affects memory, mood and immunity. Learn what happens when you cut corners and how to fix your routine.','Sleep is when your brain files memories and your body repairs itself. Students who pull all-nighters before exams often perform worse than those who sleep well.\n\nKeep a fixed bedtime, avoid screens for an hour before bed and keep your room cool and dark. These three changes make a surprising difference.\n\nIf you still struggle after a few weeks, speak with a doctor rather than guessing.',['priya','aarav','karan']),
+P('The Perfect Homemade Masala Dosa','Food','priya',10,'Crispy edges, soft centre and a potato filling that sings. A step-by-step guide to dosa success.','A great dosa begins with the batter. Soak rice and urad dal separately for six hours, grind smooth and let it ferment overnight.\n\nHeat the tawa until a drop of water dances, spread the batter thin and drizzle ghee around the edges. Wait until it turns golden before adding the potato masala.\n\nServe immediately with coconut chutney and sambar. Patience at the tawa is the whole trick.',['aarav']),
+P('How to Study Smarter, Not Longer','Education','aarav',12,'Active recall and spaced repetition beat re-reading every time. A practical study system for busy students.','Re-reading notes feels productive but barely helps you remember. Testing yourself does.\n\nClose your book and write down everything you remember, then check what you missed. Repeat the topic after one day, three days and a week.\n\nPair this with 25-minute focus sessions and short breaks, and you will study less while learning more.',['priya','karan']),
+P('Building Your First REST API Mentally','Technology','aarav',15,'Before writing code, learn how requests, resources and status codes fit together with simple everyday examples.','Think of an API as a restaurant. You, the client, send an order; the kitchen, the server, prepares it and sends it back.\n\nEach resource, like users or orders, has a URL. GET reads, POST creates, PUT updates and DELETE removes. Status codes tell you how it went: 200 means success and 404 means not found.\n\nOnce this mental model clicks, any backend framework becomes much easier to learn.',['karan']),
+P('Street Food Trail: Ten Bites of Chennai','Food','priya',20,'From Marina Beach sundal to filter coffee in Mylapore, this is a hungry traveller guide to the city.','Chennai mornings begin with filter coffee served in a steel tumbler and davara. Nothing else comes close.\n\nWalk along Marina Beach in the evening for sundal and murukku, then head to Mylapore for crisp vadas and soft idlis. Do not skip the kothu parotta near Triplicane.\n\nCarry cash, small change and an adventurous appetite. Your stomach will thank you later.',['aarav','karan','admin'])]
+.map((p,i)=>({id:i+1,...p})));
+S('bl_comments',[{id:1,pid:1,user:'priya@blog.com',text:'Great read! Learning the basics first really helped me too.',date:ago(1)},{id:2,pid:2,user:'aarav@blog.com',text:'Adding Alleppey to my bucket list right now.',date:ago(2)}]);}
+if(!L('bl_comments',null))S('bl_comments',[]);
+
+const users=()=>L('bl_users',[]),posts=()=>L('bl_posts',[]),cms=()=>L('bl_comments',[]);
+const me=()=>users().find(u=>u.email===session)||null;
+const isAdmin=()=>{const u=me();return !!u&&u.role==='admin'};
+const uname=e=>{const u=users().find(x=>x.email===e);return u?u.name:'Unknown'};
+const nid=a=>a.reduce((m,x)=>Math.max(m,x.id),0)+1;
+const rt=t=>Math.max(1,Math.round(t.trim().split(/\s+/).length/200));
+const go=h=>{location.hash=h};
+function toast(m,t='ok'){const d=document.createElement('div');d.className='to';d.style.background=t==='ok'?'#15803d':t==='er'?'#dc2626':'#d97706';d.textContent=m;$('#ts').appendChild(d);setTimeout(()=>d.remove(),2800)}
+function modal(h){$('#mo').innerHTML=`<div class="ov" onclick="if(event.target===this)closeM()"><div class="md">${h}</div></div>`}
+const closeM=()=>{$('#mo').innerHTML=''};
+const cover=(p,big)=>{const c=CV[p.cat]||CV.Technology;const g=`linear-gradient(135deg,${c[0]})`;
+  if(p.img)return `<div class="cv" style="background:url('${esc(encodeURI(p.img).replace(/'/g,'%27'))}'),${g}"></div>`;
+  return `<div class="cv" style="background:${g}">${c[1]}</div>`};
+
+/* ---------- nav & router ---------- */
+function drawNav(){const u=me();
+  $('#nav').innerHTML=`<a class="logo" href="#/">Inkwell</a><div class="nl"><a href="#/">Home</a>${u?'<a href="#/write" class="btn g s">✍️ Write</a><a href="#/profile">'+esc(u.name.split(' ')[0])+(u.role==='admin'?' (Admin)':'')+'</a><a href="#" onclick="logout();return false">Logout</a>':'<a href="#/login">Login</a><a href="#/register" class="btn s">Get started</a>'}</div>`}
+function render(){
+  const h=(location.hash||'#/').split('/'),r=h[1]||'',app=$('#app');
+  if((r==='write'||(r==='profile'&&!h[2]))&&!session){toast('Please login first','wa');return go('#/login')}
+  if((r==='login'||r==='register')&&session)return go('#/');
+  drawNav();window.scrollTo(0,0);
+  if(r==='post')app.innerHTML=postView(+h[2]);
+  else if(r==='write')app.innerHTML=writeView(+h[2]||0);
+  else if(r==='profile')app.innerHTML=profileView(h[2]?decodeURIComponent(h[2]):session);
+  else if(r==='login')app.innerHTML=loginView();
+  else if(r==='register')app.innerHTML=regView();
+  else{app.innerHTML=homeView();drawList()}
+}
+window.addEventListener('hashchange',render);
+
+/* ---------- auth ---------- */
+const loginView=()=>`<div class="box auth"><h2>Welcome back</h2><label>Email</label><input id="le" type="email"><label>Password</label><input id="lp" type="password"><div id="er" class="err"></div>
+<button class="btn w" style="margin-top:18px" onclick="login()">Login</button><p style="margin-top:14px;font-size:13px;color:var(--mut)">No account? <a href="#/register">Register</a><br>Demo: admin@blog.com / admin123 · aarav@blog.com / demo123</p></div>`;
+function login(){const e=$('#le').value.trim().toLowerCase(),p=$('#lp').value;
+  if(!e||!p)return $('#er').textContent='Enter email and password.';
+  const u=users().find(x=>x.email===e&&x.pass===p);if(!u)return $('#er').textContent='Invalid email or password.';
+  session=u.email;S('bl_session',session);toast('Welcome back, '+u.name+'!');go('#/')}
+const regView=()=>`<div class="box auth"><h2>Join Inkwell</h2><label>Full name</label><input id="rn"><label>Email</label><input id="re" type="email"><label>Password</label><input id="rp" type="password" placeholder="Min 6 characters"><label>Confirm password</label><input id="rc" type="password"><div id="er" class="err"></div>
+<button class="btn w" style="margin-top:18px" onclick="register()">Create account</button><p style="margin-top:14px;font-size:13px;color:var(--mut)">Already a member? <a href="#/login">Login</a></p></div>`;
+function register(){const n=$('#rn').value.trim(),e=$('#re').value.trim().toLowerCase(),p=$('#rp').value,c=$('#rc').value,er=m=>$('#er').textContent=m;
+  if(n.length<2)return er('Enter your name.');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))return er('Enter a valid email.');
+  if(p.length<6)return er('Password needs 6+ characters.');
+  if(p!==c)return er('Passwords do not match.');
+  const us=users();if(us.some(u=>u.email===e))return er('Email already registered.');
+  us.push({email:e,name:n,pass:p,role:'user',bio:'',joined:new Date().toISOString()});S('bl_users',us);
+  session=e;S('bl_session',e);toast('Account created!');go('#/')}
+function logout(){session=null;localStorage.removeItem('bl_session');toast('Logged out','wa');go('#/');render()}
+
+/* ---------- home ---------- */
+const nc=id=>cms().filter(c=>c.pid===id).length;
+const card=(p,own)=>`<div class="card" onclick="go('#/post/${p.id}')">${cover(p)}<div class="cb"><span class="cat">${esc(p.cat)}</span><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p>
+<div class="meta"><span>${esc(uname(p.author))}</span>·<span>${fd(p.date)}</span>·<span>${rt(p.content)} min</span><span style="margin-left:auto">♥ ${p.likes.length} · 💬 ${nc(p.id)}</span></div>
+${own?`<div style="display:flex;gap:8px;margin-top:12px" onclick="event.stopPropagation()"><button class="btn o s" onclick="go('#/write/${p.id}')">Edit</button><button class="btn d s" onclick="delPost(${p.id})">Delete</button></div>`:''}</div></div>`;
+function homeView(){
+  const f=[...posts()].sort((a,b)=>b.likes.length-a.likes.length||new Date(b.date)-new Date(a.date)).slice(0,3);
+  return `<div class="hero"><h1>Stories, ideas and knowledge worth sharing</h1><p>A friendly space where students and creators write, read and discuss.</p>
+  <a class="btn g" href="${session?'#/write':'#/register'}">${session?'Start writing':'Join for free'}</a></div>
+  <h2 class="t" style="margin-top:0">⭐ Featured</h2><div class="ft">${f.map(p=>card(p)).join('')}</div>
+  <h2 class="t">Latest articles</h2><div class="chips" id="chips"></div>
+  <div class="bar"><input id="sq" placeholder="🔍 Search by title or content..." value="${esc(q)}" oninput="q=this.value;drawList()"><select onchange="sort=this.value;drawList()"><option value="new" ${sort==='new'?'selected':''}>Newest first</option><option value="old" ${sort==='old'?'selected':''}>Oldest first</option></select></div><div class="grid" id="grid"></div>`}
+function drawList(){
+  const c=$('#chips');if(c)c.innerHTML=['All',...CATS].map(x=>`<button class="chip ${x===cat?'on':''}" onclick="cat='${x}';drawList()">${x}</button>`).join('');
+  const k=q.toLowerCase();
+  const l=posts().filter(p=>(cat==='All'||p.cat===cat)&&(p.title+' '+p.content).toLowerCase().includes(k)).sort((a,b)=>sort==='new'?new Date(b.date)-new Date(a.date):new Date(a.date)-new Date(b.date));
+  const g=$('#grid');if(g)g.innerHTML=l.map(p=>card(p)).join('')||'<div class="empty" style="grid-column:1/-1"><div>📝</div><p>No articles found. Try another search or category.</p></div>'}
+
+/* ---------- post detail ---------- */
+function postView(id){
+  const p=posts().find(x=>x.id===id);if(!p)return '<div class="empty"><div>😕</div><p>Post not found.</p><br><a class="btn" href="#/">Back home</a></div>';
+  const rel=posts().filter(x=>x.id!==id).sort((a,b)=>(b.cat===p.cat)-(a.cat===p.cat)||b.likes.length-a.likes.length).slice(0,3);
+  const own=p.author===session,liked=p.likes.includes(session);
+  return `<div class="art"><span class="cat">${esc(p.cat)}</span><h1>${esc(p.title)}</h1><p style="color:var(--mut);font-family:var(--sf);font-size:18px">${esc(p.desc)}</p>
+  <div class="au"><div class="av">${esc(uname(p.author)[0])}</div><div><a href="#/profile/${encodeURIComponent(p.author)}"><b>${esc(uname(p.author))}</b></a><br><small style="color:var(--mut)">${fd(p.date)} · ${rt(p.content)} min read</small></div></div>
+  ${cover(p)}<div class="body">${p.content.split(/\n+/).filter(Boolean).map(x=>`<p>${esc(x)}</p>`).join('')}</div>
+  <div class="act"><button class="btn ${liked?'g':'o'} s" onclick="like(${p.id})">${liked?'♥ Liked':'♡ Like'} · ${p.likes.length}</button><span style="color:var(--mut)">💬 ${nc(p.id)} comments</span>
+  ${own?`<button class="btn o s" style="margin-left:auto" onclick="go('#/write/${p.id}')">Edit</button><button class="btn d s" onclick="delPost(${p.id})">Delete</button>`:isAdmin()?`<button class="btn d s" style="margin-left:auto" onclick="delPost(${p.id})">Delete (Admin)</button>`:''}</div>
+  <h2 class="t" style="margin-top:0">Comments</h2><div id="cmbox">${commentsHTML(p.id)}</div>
+  <h2 class="t">Related articles</h2></div><div class="grid">${rel.map(x=>card(x)).join('')}</div>`}
+function commentsHTML(pid){
+  const l=cms().filter(c=>c.pid===pid).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const form=session?`<textarea id="ct" rows="3" placeholder="Share your thoughts..."></textarea><div id="cer" class="err"></div><button class="btn s" style="margin-top:10px" onclick="addC(${pid})">Post comment</button>`:`<div class="box" style="padding:16px">Please <a href="#/login"><b>login</b></a> to join the discussion.</div>`;
+  return form+(l.length?l.map(c=>`<div class="cm"><b>${esc(uname(c.user))}</b> <small style="color:var(--mut)">· ${fd(c.date)}${c.edited?' (edited)':''}</small>
+  ${editC===c.id?`<textarea id="ce" rows="3" style="margin:8px 0">${esc(c.text)}</textarea><button class="btn s g" onclick="saveC(${c.id},${pid})">Save</button> <button class="btn s o" onclick="editC=null;redrawC(${pid})">Cancel</button>`:`<p>${esc(c.text)}</p>`}
+  ${editC!==c.id&&c.user===session?`<button class="btn o s" onclick="editC=${c.id};redrawC(${pid})">Edit</button> `:''}${editC!==c.id&&(c.user===session||isAdmin())?`<button class="btn d s" onclick="delC(${c.id},${pid})">Delete</button>`:''}</div>`).join(''):'<div class="empty"><div>💬</div><p>No comments yet. Be the first to comment!</p></div>')}
+const redrawC=pid=>{$('#cmbox').innerHTML=commentsHTML(pid)};
+function addC(pid){if(!session)return toast('Login required','er');const t=$('#ct').value.trim();
+  if(t.length<2)return $('#cer').textContent='Comment is too short.';if(t.length>500)return $('#cer').textContent='Max 500 characters.';
+  const c=cms();c.push({id:nid(c),pid,user:session,text:t,date:new Date().toISOString()});S('bl_comments',c);toast('Comment posted');render()}
+function saveC(id,pid){const c=cms(),x=c.find(y=>y.id===id),t=$('#ce').value.trim();
+  if(!x||x.user!==session)return toast('Not allowed','er');if(t.length<2)return toast('Comment is too short','er');
+  x.text=t;x.edited=true;S('bl_comments',c);editC=null;toast('Comment updated');redrawC(pid)}
+function delC(id,pid){const x=cms().find(y=>y.id===id);if(!x||(x.user!==session&&!isAdmin()))return toast('Not allowed','er');
+  if(!confirm('Delete this comment?'))return;S('bl_comments',cms().filter(y=>y.id!==id));toast('Comment deleted','wa');render()}
+function like(id){if(!session){toast('Login to like posts','wa');return go('#/login')}
+  const ps=posts(),p=ps.find(x=>x.id===id),i=p.likes.indexOf(session);i>-1?p.likes.splice(i,1):p.likes.push(session);S('bl_posts',ps);render()}
+function delPost(id){const p=posts().find(x=>x.id===id);if(!p)return;
+  if(p.author!==session&&!isAdmin())return toast('You can only delete your own posts','er');
+  if(!confirm('Delete this post and its comments?'))return;
+  S('bl_posts',posts().filter(x=>x.id!==id));S('bl_comments',cms().filter(c=>c.pid!==id));toast('Post deleted','wa');
+  (location.hash.includes('/post/')||location.hash.includes('/write/'))?go('#/'):render()}
+
+/* ---------- write / edit ---------- */
+function writeView(id){
+  let p={title:'',desc:'',content:'',cat:CATS[0],img:''};
+  if(id){const x=posts().find(y=>y.id===id);if(!x)return '<div class="empty"><div>😕</div><p>Post not found.</p></div>';
+    if(x.author!==session){toast('You can only edit your own posts','er');setTimeout(()=>go('#/'),0);return ''}p=x}
+  curImg=p.img||'';setTimeout(prev,0);
+  return `<div class="art"><h2 class="t" style="margin-top:0">${id?'Edit story':'Write a new story'}</h2><div class="box">
+  <label>Title</label><input id="wt" maxlength="120" value="${esc(p.title)}" placeholder="An interesting title">
+  <label>Category</label><select id="wc">${CATS.map(c=>`<option ${c===p.cat?'selected':''}>${c}</option>`).join('')}</select>
+  <label>Short description</label><input id="wd" maxlength="160" value="${esc(p.desc)}" placeholder="One or two sentences (max 160 characters)">
+  <label>Cover image URL (optional)</label><input id="wi" value="${esc(curImg.startsWith('data:')?'':curImg)}" placeholder="https://..." oninput="curImg=this.value.trim();prev()">
+  <label>…or upload an image</label><input type="file" accept="image/*" onchange="upload(this)"><div id="pv" class="pv"></div>
+  <label>Content (blank line = new paragraph)</label><textarea id="wb" rows="12">${esc(p.content)}</textarea><div id="er" class="err"></div>
+  <div style="display:flex;gap:10px;margin-top:18px"><button class="btn g" onclick="savePost(${id})">${id?'Update':'Publish'}</button><button class="btn o" onclick="history.back()">Cancel</button></div></div></div>`}
+function prev(){const v=$('#pv');if(!v)return;if(curImg){v.style.display='block';v.style.backgroundImage=`url("${encodeURI(curImg)}")`}else v.style.display='none'}
+function upload(el){const f=el.files[0];if(!f)return;if(!f.type.startsWith('image/'))return toast('Select an image file','er');
+  const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/im.width),cv=document.createElement('canvas');cv.width=im.width*k;cv.height=im.height*k;
+    cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);curImg=cv.toDataURL('image/jpeg',.7);$('#wi').value='';prev();toast('Image added')};im.onerror=()=>toast('Invalid image','er');im.src=r.result};r.readAsDataURL(f)}
+function savePost(id){
+  const t=$('#wt').value.trim(),d=$('#wd').value.trim(),b=$('#wb').value.trim(),er=m=>$('#er').textContent=m;
+  if(t.length<5)return er('Title must be at least 5 characters.');
+  if(d.length<10)return er('Add a short description (10+ characters).');
+  if(b.length<50)return er('Content must be at least 50 characters.');
+  if(curImg&&!/^(https?:\/\/|data:image\/)/i.test(curImg))return er('Image URL must start with http:// or https://');
+  const ps=posts();let nidv=id;
+  if(id){const p=ps.find(x=>x.id===id);if(!p||p.author!==session)return toast('Not allowed','er');Object.assign(p,{title:t,desc:d,content:b,cat:$('#wc').value,img:curImg})}
+  else{nidv=nid(ps);ps.push({id:nidv,title:t,desc:d,content:b,cat:$('#wc').value,img:curImg,author:session,date:new Date().toISOString(),likes:[]})}
+  try{S('bl_posts',ps)}catch(e){return er('Storage full – use a smaller image.')}
+  toast(id?'Post updated':'Post published!');go('#/post/'+nidv)}
+
+/* ---------- profile ---------- */
+function profileView(em){
+  const u=users().find(x=>x.email===em);if(!u)return '<div class="empty"><div>😕</div><p>User not found.</p></div>';
+  const mine=u.email===session,l=posts().filter(p=>p.author===em).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  return `<div class="box"><div class="ph"><div class="av">${esc(u.name[0])}</div><div style="flex:1"><h2 style="font-family:var(--sf)">${esc(u.name)}</h2><p style="color:var(--mut)">${esc(u.email)}</p>
+  <p style="margin:8px 0">${esc(u.bio)||'<i style="color:var(--mut)">No bio yet.</i>'}</p><small style="color:var(--mut)">Joined ${fd(u.joined)} · ${u.role==='admin'?'Admin':'Member'}</small></div>
+  <div style="text-align:center"><b style="font-size:30px">${l.length}</b><br><small style="color:var(--mut)">Total posts</small></div>${mine?'<button class="btn o" onclick="profForm()">Edit profile</button>':''}</div></div>
+  <h2 class="t">${mine?'My published posts':'Posts by '+esc(u.name)}</h2><div class="grid">${l.map(p=>card(p,mine)).join('')||`<div class="empty" style="grid-column:1/-1"><div>✍️</div><p>No posts yet.</p>${mine?'<br><a class="btn g" href="#/write">Write your first post</a>':''}</div>`}</div>`}
+function profForm(){const u=me();
+  modal(`<h3 style="font-family:var(--sf);font-size:22px">Edit profile</h3><label>Name</label><input id="pn" value="${esc(u.name)}"><label>Email (cannot change)</label><input value="${esc(u.email)}" disabled>
+  <label>Bio</label><textarea id="pb" rows="3" maxlength="200">${esc(u.bio)}</textarea><label>New password (optional)</label><input id="pp" type="password" placeholder="Leave blank to keep current">
+  <div id="er" class="err"></div><div style="display:flex;gap:10px;margin-top:16px"><button class="btn g" onclick="saveProf()">Save</button><button class="btn o" onclick="closeM()">Cancel</button></div>`)}
+function saveProf(){const n=$('#pn').value.trim(),p=$('#pp').value,er=m=>$('#er').textContent=m;
+  if(n.length<2)return er('Enter a valid name.');if(p&&p.length<6)return er('Password needs 6+ characters.');
+  const us=users(),u=us.find(x=>x.email===session);u.name=n;u.bio=$('#pb').value.trim();if(p)u.pass=p;S('bl_users',us);closeM();toast('Profile updated');render()}
+
+if(session&&!me()){session=null;localStorage.removeItem('bl_session')}
+render();
+</script>
+</body>
+</html>
